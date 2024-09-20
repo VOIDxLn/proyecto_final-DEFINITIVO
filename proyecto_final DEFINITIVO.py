@@ -1,144 +1,147 @@
-# Base de datos de clientes
+reservas_hotel = {}
+reservas_vuelo = {}
 clientes = {}
-
-# Base de datos de paquetes turísticos
 paquetes_turisticos = {
-    "vuelos": {
-        "1. Bogota-Medellin": {"precio": 90, "disponibles": 10},
-        "2. Cali-San Andres": {"precio": 200, "disponibles": 5},
-        "3. Manizales-Cartagena": {"precio": 145, "disponibles": 8}
-    },
-    "hoteles": {
-        "1. Cali": {"precio": 50, "disponibles": 20},
-        "2. Bogota": {"precio": 60, "disponibles": 15},
-        "3. Medellin": {"precio": 40, "disponibles": 25}
-    },
-    "tours": {
-        "1. City Tour Cali": {"precio": 20, "disponibles": 30},
-        "2. Monserrate Bogota": {"precio": 30, "disponibles": 20},
-        "3. Parque Arví Medellin": {"precio": 40, "disponibles": 25}
-    }
+    1: {'nombre_paquete': 'Escapada Romántica', 'destino': 'Paris', 'fecha_salida': '09-30-2024', 'precio': 1200000},
+    2: {'nombre_paquete': 'Aventura en la Selva', 'destino': 'Amazonas', 'fecha_salida': '10-10-2024', 'precio': 1500000},
+    3: {'nombre_paquete': 'Tour por Europa', 'destino': 'Varios países de Europa', 'fecha_salida': '20-11-2024', 'precio': 3000000},
+    4: {'nombre_paquete': 'Vacaciones en la Playa', 'destino': 'Maldivas', 'fecha_salida': '15-12-2024', 'precio': 2500000}
 }
 
-def reservar_paquete():
-    global clientes
-    print("\nMenú de Reservas:")
-    print("1. Vuelo")
-    print("2. Hotel")
-    print("3. Tour")
-    opcion = input("Ingrese su opción: ")
-    
-    if opcion == "1":
-        paquete = "vuelos"
-    elif opcion == "2":
-        paquete = "hoteles"
-    elif opcion == "3":
-        paquete = "tours"
-    else:
-        print("Opción inválida.")
-        return
-    
-    print("\nOpciones de", paquete)
-    for i, (nombre, detalles) in enumerate(paquetes_turisticos[paquete].items(), start=1):
-        print(f"{i}. {nombre}: ${detalles['precio']}")
-    
-    seleccion = input("Ingrese el número del paquete deseado: ")
-    nombre_paquete = list(paquetes_turisticos[paquete].keys())[int(seleccion) - 1]
-    precio = paquetes_turisticos[paquete][nombre_paquete]["precio"]
-    
-    confirmar = input("Desea reservar? (s/n): ")
-    if confirmar.lower() == "s":
-        nombre = input("Ingrese su nombre: ")
-        apellido = input("Ingrese su apellido: ")
-        email = input("Ingrese su correo electrónico: ")
-        
-        # Agregar cliente a la base de datos
-        clientes[nombre + " " + apellido] = {
-            "email": email,
-            "reservas": [{ "paquete": nombre_paquete, "precio": precio }]
+def agregar_informacion(diccionario, tipo):
+    id = int(input(f"Introduce el ID para la nueva {tipo}: "))
+
+    if tipo == "reserva de hotel":
+        cliente = input("Introduce el nombre del cliente: ")
+        fecha_entrada = input("Introduce la fecha de entrada (DD-MM-YYYY): ")
+        fecha_salida = input("Introduce la fecha de salida (DD-MM-YYYY): ")
+        habitacion = input("Introduce el número de habitación: ")
+        diccionario[id] = {
+            'cliente': cliente,
+            'fecha_entrada': fecha_entrada,
+            'fecha_salida': fecha_salida,
+            'habitacion': habitacion
         }
-        
-        # Restar disponibilidad del paquete
-        paquetes_turisticos[paquete][nombre_paquete]["disponibles"] -= 1
-        
-        print("Reserva exitosa!")
-        print("Detalle de la reserva:")
-        print(f"Nombre: {nombre} {apellido}")
-        print(f"Correo electrónico: {email}")
-        print(f"Paquete: {nombre_paquete}")
-        print(f"Precio: ${precio}")
+
+    elif tipo == "reserva de vuelo":
+        cliente = input("Introduce el nombre del cliente: ")
+        fecha_vuelo = input("Introduce la fecha del vuelo (DD-MM-YYYY): ")
+        destino = input("Introduce el destino: ")
+        asiento = input("Introduce el número de asiento: ")
+        diccionario[id] = {
+            'cliente': cliente,
+            'fecha_vuelo': fecha_vuelo,
+            'destino': destino,
+            'asiento': asiento
+        }
+
+    elif tipo == "cliente":
+        nombre = input("Introduce el nombre del cliente: ")
+        telefono = input("Introduce el teléfono del cliente: ")
+        email = input("Introduce el email del cliente: ")
+        diccionario[id] = {
+            'nombre': nombre,
+            'telefono': telefono,
+            'email': email
+        }
+
+    elif tipo == "paquete turístico":
+        nombre_paquete = input("Introduce el nombre del paquete turístico: ")
+        destino = input("Introduce el destino: ")
+        fecha_salida = input("Introduce la fecha de salida (DD-MM-YYYY): ")
+        precio = input("Introduce el precio del paquete: ")
+        diccionario[id] = {
+            'nombre_paquete': nombre_paquete,
+            'destino': destino,
+            'fecha_salida': fecha_salida,
+            'precio': precio
+        }
+
+    print(f"Nueva {tipo} agregada correctamente.\n")
 
 
-def buscar_cliente():
-    global clientes
-    nombre = input("Ingrese el nombre del cliente: ")
-    apellido = input("Ingrese el apellido del cliente: ")
-    cliente = nombre + " " + apellido
-    
-    if cliente in clientes:
-        print("Cliente encontrado.")
-        print("Detalle del cliente:")
-        print(f"Nombre: {cliente}")
-        print(f"Correo electrónico: {clientes[cliente]['email']}")
-        print("Reservas:")
-        for reserva in clientes[cliente]["reservas"]:
-            print(f"Paquete: {reserva['paquete']}")
-            print(f"Precio: ${reserva['precio']}")
-        
-        # Opciones para actualizar o eliminar cliente
-        print("\nMenú de Opciones:")
-        print("1. Actualizar información")
-        print("2. Eliminar cliente")
-        print("3. Agregar paquete")
-        opcion = input("Ingrese su opción: ")
-        
-        if opcion == "1":
-            # Actualizar información del cliente
-            clientes[cliente]["email"] = input("Ingrese nuevo correo electrónico: ")
-            print("Información actualizada.")
-        elif opcion == "2":
-            # Eliminar cliente
-            del clientes[cliente]
-            print("Cliente eliminado.")
-        elif opcion == "3":
-            # Agregar paquete al cliente
-            paquete = input("Ingrese el nombre del paquete: ")
-            precio = float(input("Ingrese el precio del paquete: "))
-            clientes[cliente]["reservas"].append({
-                "paquete": paquete,
-                "precio": precio
-            })
-            print("Paquete agregado.")
-        else:
-            print("Opción inválida.")
+def ver_informacion(diccionario, tipo):
+    if diccionario:
+        print(f"\nMostrando todas las {tipo}s:")
+        for id, info in diccionario.items():
+            print(f"ID {id}: {info}")
     else:
-        print("Cliente no encontrado.")
+        print(f"No hay {tipo}s disponibles.")
+
+
+def actualizar_informacion(diccionario, tipo):
+    id = int(input(f"Introduce el ID de la {tipo} a actualizar: "))
+
+    if id in diccionario:
+        print(f"Información actual: {diccionario[id]}")
+        campo = input("¿Qué campo deseas actualizar? (Escribe el nombre del campo): ")
+        nuevo_valor = input(f"Introduce el nuevo valor para {campo}: ")
+        if campo in diccionario[id]:
+            diccionario[id][campo] = nuevo_valor
+            print(f"{tipo.capitalize()} actualizada correctamente.")
+        else:
+            print("Campo no encontrado.")
+    else:
+        print("ID no encontrado.")
+
+
+def borrar_informacion(diccionario, tipo):
+    id = int(input(f"Introduce el ID de la {tipo} a borrar: "))
+
+    if id in diccionario:
+        diccionario.pop(id)
+        print(f"{tipo.capitalize()} eliminada correctamente.")
+    else:
+        print("ID no encontrado.")
 
 
 def menu():
     while True:
-        print("\nMenú Principal:")
-        print("1. Reservar paquete")
-        print("2. Buscar cliente")
-        print("3. Mostrar paquetes")
-        print("4. Salir")
-        opcion = input("Ingrese su opción: ")
-        
-        if opcion == "1":
-            reservar_paquete()
-        elif opcion == "2":
-            buscar_cliente()
-        elif opcion == "3":
-            print("\nPaquetes Disponibles:")
-            for tipo, paquetes in paquetes_turisticos.items():
-                print(f"\n{tipo.capitalize()}:")
-                for nombre, detalles in paquetes.items():
-                    print(f"{nombre}: ${detalles['precio']} ({detalles['disponibles']} disponibles)")
-        elif opcion == "4":
-            print("Gracias por utilizar nuestro sistema de reservas.")
+        print("\nMenú Principal")
+        print("1. Gestionar reservas de hotel")
+        print("2. Gestionar reservas de vuelo")
+        print("3. Gestionar paquetes turísticos")
+        print("4. Gestionar información de clientes")
+        print("5. Salir")
+
+        opcion = input("Selecciona una opción: ")
+
+        if opcion == '1':
+            submenu(reservas_hotel, "reserva de hotel")
+        elif opcion == '2':
+            submenu(reservas_vuelo, "reserva de vuelo")
+        elif opcion == '3':
+            submenu(paquetes_turisticos, "paquete turístico")
+        elif opcion == '4':
+            submenu(clientes, "cliente")
+        elif opcion == '5':
+            print("Saliendo del programa...")
             break
         else:
-            print("Opción inválida. Por favor, intente nuevamente.")
+            print("Opción no válida. Inténtalo de nuevo.")
 
-if __name__ == "__main__":
-    menu()
+def submenu(diccionario, tipo):
+    while True:
+        print(f"\nSubmenú - {tipo.capitalize()}")
+        print("1. Agregar nueva información")
+        print("2. Actualizar información")
+        print("3. Borrar información")
+        print("4. Ver información")
+        print("5. Volver al menú principal")
+
+        opcion = input("Selecciona una opción: ")
+
+        if opcion == '4':
+            ver_informacion(diccionario, tipo)
+        elif opcion == '2':
+            actualizar_informacion(diccionario, tipo)
+        elif opcion == '3':
+            borrar_informacion(diccionario, tipo)
+        elif opcion == '1':
+            agregar_informacion(diccionario, tipo)
+        elif opcion == '5':
+            break
+        else:
+            print("Opción no válida. Inténtalo de nuevo.")
+
+menu()
