@@ -12,10 +12,42 @@ def agregar_informacion(diccionario, tipo):
     id = int(input(f"Introduce el ID para la nueva {tipo}: "))
 
     if tipo == "reserva de hotel":
-        cliente = input("Introduce el nombre del cliente: ")
+        cliente = str(input("Introduce el nombre del cliente: "))
+        while True:
+            if cliente.isalpha() != True:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            
+            elif len(cliente) == 0():
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            else:
+                break
+
         fecha_entrada = input("Introduce la fecha de entrada (DD-MM-YYYY): ")
+        while True: 
+            if len(fecha_entrada) == 0:
+                print("\nLa fecha de entrada debe ser valida, por favor intentelo de nuevo.")
+                fecha_entrada = (input("Introduce la fecha de entrada (DD-MM-YYYY): "))
+            else:
+                break
+
         fecha_salida = input("Introduce la fecha de salida (DD-MM-YYYY): ")
+        while True: 
+            if len(fecha_salida) == 0:
+                print("\nLa fecha de salida debe ser valida, por favor intentelo de nuevo.")
+                fecha_salida = (input("Introduce la fecha de salida (DD-MM-YYYY): "))
+            else:
+                break
+        
         habitacion = input("Introduce el número de habitación: ")
+        while True: 
+            if habitacion.isdigit() != True:
+                print("\nEl numero de habitacion debe ser valido, por favor ingreselo de nuevo.")
+                habitacion = input("Introduce el número de habitación: ")
+            else:
+                break
+
         diccionario[id] = {
             'cliente': cliente,
             'fecha_entrada': fecha_entrada,
@@ -25,9 +57,40 @@ def agregar_informacion(diccionario, tipo):
 
     elif tipo == "reserva de vuelo":
         cliente = input("Introduce el nombre del cliente: ")
+        while True:
+            if cliente.isalpha() != True:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            
+            elif len(cliente) == 0:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            else:
+                break
+
         fecha_vuelo = input("Introduce la fecha del vuelo (DD-MM-YYYY): ")
+        while True: 
+            if len(fecha_vuelo) == 0:
+                print("\nLa fecha del vuelo debe ser valida, por favor intentelo de nuevo.")
+                fecha_vuelo = (input("Introduce la fecha del vuelo (DD-MM-YYYY): "))
+            else:
+                break
+
         destino = input("Introduce el destino: ")
+        while True: 
+            if len(destino) == 0:
+                print("\nEl destino debe ser valida, por favor intentelo de nuevo.")
+                destino = (input("Introduce el destino: "))
+            else:
+                break
         asiento = input("Introduce el número de asiento: ")
+        while True: 
+            if asiento.isdigit() != True:
+                print("\nEl numero de habitacion debe ser valido, por favor ingreselo de nuevo.")
+                asiento = input("Introduce el número de habitación: ")
+            else:
+                break
+        
         diccionario[id] = {
             'cliente': cliente,
             'fecha_vuelo': fecha_vuelo,
@@ -37,8 +100,36 @@ def agregar_informacion(diccionario, tipo):
 
     elif tipo == "cliente":
         nombre = input("Introduce el nombre del cliente: ")
+        while True:
+            if cliente.isalpha() != True:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            
+            elif len(cliente) == 0:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            else:
+                break
+
         telefono = input("Introduce el teléfono del cliente: ")
+        while True: 
+            if telefono.isdigit() != True:
+                print("\nEl numero de habitacion debe ser valido, por favor ingreselo de nuevo.")
+                telefono = input("Introduce el número de habitación: ")
+            else:
+                break
         email = input("Introduce el email del cliente: ")
+        while True:
+            if email.isalpha() != True:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                cliente = (input("Introduce el nombre del cliente: "))
+            
+            elif len(email) == 0:
+                print("\nEl nombre del cliente debe ser texto, intentelo de nuevo.")
+                email = (input("Introduce el nombre del cliente: "))
+            else:
+                break
+
         diccionario[id] = {
             'nombre': nombre,
             'telefono': telefono,
@@ -48,15 +139,35 @@ def agregar_informacion(diccionario, tipo):
     elif tipo == "paquete turístico":
         nombre_paquete = input("Introduce el nombre del paquete turístico: ")
         destino = input("Introduce el destino: ")
+        while True: 
+            if len(destino) == 0:
+                print("\nEl destino debe ser valida, por favor intentelo de nuevo.")
+                destino = (input("Introduce el destino: "))
+            else:
+                break
         fecha_salida = input("Introduce la fecha de salida (DD-MM-YYYY): ")
+        while True: 
+            if len(fecha_salida) == 0:
+                print("\nLa fecha de salida debe ser valida, por favor intentelo de nuevo.")
+                fecha_salida = (input("Introduce la fecha de salida (DD-MM-YYYY): "))
+            else:
+                break
+
         precio = input("Introduce el precio del paquete: ")
+        while True: 
+            if precio.isdigit() != True:
+                print("\nEl numero de habitacion debe ser valido, por favor ingreselo de nuevo.")
+                precio = input("Introduce el número de habitación: ")
+            else:
+                break
+
         diccionario[id] = {
             'nombre_paquete': nombre_paquete,
             'destino': destino,
             'fecha_salida': fecha_salida,
             'precio': precio
         }
-
+    print("\n-----------------------------------------")
     print(f"Nueva {tipo} agregada correctamente.\n")
 
 
